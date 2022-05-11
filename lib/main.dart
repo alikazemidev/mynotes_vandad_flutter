@@ -4,7 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes_vand/firebase_options.dart';
 import 'package:mynotes_vand/views/login_view.dart';
-import 'dart:developer' as dev;
+
+
+import 'package:mynotes_vand/views/register_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +15,10 @@ void main() {
       title: "notes app",
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      routes: {
+        '/register/': (context) => RegisterView(),
+        '/login/': (context) => LoginView(),
+      },
     ),
   );
 }
@@ -22,31 +28,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = FirebaseAuth.instance.currentUser;
-              if (user?.emailVerified ?? false) {
-                dev.log('you are a verified user');
-              } else {
-                dev.log('you`re not verified user');
-              }
-              return Text('Done!');
-            default:
-              return Center(
-                child: Text('waiting.....'),
-              );
-          }
-        },
-      ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            // if (user?.emailVerified ?? false) {
+            //   dev.log('you are a verified user');
+            return LoginView();
+          // } else {
+          //   dev.log('you`re not verified user');
+          //   return VerifyEmailView();
+          // }
+          default:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+        }
+      },
     );
   }
 }
+
+

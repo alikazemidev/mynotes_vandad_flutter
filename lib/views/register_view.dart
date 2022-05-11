@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mynotes_vand/firebase_options.dart';
 
 class RegisterView extends StatefulWidget {
+  static const routeName = '/register';
   const RegisterView({Key? key}) : super(key: key);
 
   @override
@@ -31,9 +32,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
+      appBar: AppBar(title: Text('Register')),
       body: FutureBuilder(
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
@@ -85,11 +84,20 @@ class _RegisterViewState extends State<RegisterView> {
                     },
                     child: Text('Register'),
                   ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/login/',
+                        (route) => false,
+                      );
+                    },
+                    child: Text('already register? login here!'),
+                  ),
                 ],
               );
             default:
               return Center(
-                child: Text('waiting.....'),
+                child:  CircularProgressIndicator(),
               );
           }
         },
