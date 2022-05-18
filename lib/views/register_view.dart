@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes_vand/firebase_options.dart';
+import 'dart:developer' as dev show log;
 
 class RegisterView extends StatefulWidget {
   static const routeName = '/register';
@@ -74,11 +75,11 @@ class _RegisterViewState extends State<RegisterView> {
                         print(userCredential);
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
-                          print('Weak password');
+                          dev.log('Weak password');
                         } else if (e.code == 'email-already-in-use') {
-                          print('email already in use');
+                          dev.log('email already in use');
                         } else if (e.code == 'invalid-email') {
-                          print('invalid email');
+                          dev.log('invalid email');
                         }
                       }
                     },
@@ -97,7 +98,7 @@ class _RegisterViewState extends State<RegisterView> {
               );
             default:
               return Center(
-                child:  CircularProgressIndicator(),
+                child: CircularProgressIndicator(),
               );
           }
         },
