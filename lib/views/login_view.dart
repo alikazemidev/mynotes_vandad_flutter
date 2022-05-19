@@ -76,11 +76,20 @@ class _LoginViewState extends State<LoginView> {
                         );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
-                          await showErrorDialog(context, 'user not found');
+                          await showErrorDialog(
+                            context,
+                            'user not found',
+                          );
                         } else if (e.code == 'wrong-password') {
-                          await showErrorDialog(context, 'wrong password');
+                          await showErrorDialog(
+                            context,
+                            'wrong password',
+                          );
                         } else {
-                          await showErrorDialog(context, 'Error : ${e.code}');
+                          await showErrorDialog(
+                            context,
+                            'Error : ${e.code}',
+                          );
                         }
                       } catch (e) {
                         await showErrorDialog(
@@ -92,13 +101,14 @@ class _LoginViewState extends State<LoginView> {
                     child: Text('Login'),
                   ),
                   TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          registerRoute,
-                          (route) => false,
-                        );
-                      },
-                      child: Text('Not registerd yet? Register here!'))
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        registerRoute,
+                        (route) => false,
+                      );
+                    },
+                    child: Text('Not registerd yet? Register here!'),
+                  )
                 ],
               );
             default:
